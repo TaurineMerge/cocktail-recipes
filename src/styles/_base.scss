@@ -1,0 +1,52 @@
+@use '@angular/material' as mat;
+@use './theme-colors' as colors;
+
+html {
+  height: 100%;
+  margin: 0;
+  @include mat.theme(
+    (
+      color: (
+        primary: colors.$primary-palette,
+        tertiary: colors.$tertiary-palette,
+      ),
+      typography: (
+        plain-family: Inter,
+        brand-family: Fraunces,
+      ),
+      density: 0,
+    )
+  );
+}
+
+body {
+  color-scheme: light;
+  background-color: var(--mat-sys-surface-container-lowest);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  margin: 0;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  font-family: Inter, sans-serif;
+}
+
+.dark-theme {
+  @include mat.theme(
+    (
+      color: (
+        theme-type: dark,
+        primary: colors.$primary-palette,
+        tertiary: colors.$tertiary-palette,
+      ),
+      typography: (
+        plain-family: Inter,
+        brand-family: Fraunces,
+      ),
+      density: 0,
+    )
+  );
+  color-scheme: dark;
+}

@@ -1,0 +1,32 @@
+.page-container {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.error-message {
+  color: var(--mat-sys-error);
+  font-size: 0.875rem;
+  margin: 4px 0 12px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+}
+
+.auth-card__form-field {
+  margin-bottom: 16px;
+
+  :last-child {
+    margin-bottom: 0;
+  }
+}
+
+.auth-submit {
+  box-shadow: 0 0 24px color-mix(in srgb, var(--mat-sys-primary) 45%, transparent);
+}
