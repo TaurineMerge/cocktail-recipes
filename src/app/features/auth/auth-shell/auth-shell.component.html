@@ -1,0 +1,31 @@
+<div class="auth-shell__illustration">
+  <img
+    class="auth-shell__art"
+    src="/auth-illustration.png"
+    alt="иллюстрация: девушка с бокалом"
+    draggable="false"
+  />
+  <h1 class="auth-shell__tagline">Твои рецепты, твой стиль</h1>
+  <p class="auth-shell__subtitle">Коллекция коктейлей — сохраняй, редактируй, готовь</p>
+</div>
+
+<div class="auth-shell__panel">
+  <nav class="auth-toggle" aria-label="Переключение между входом и регистрацией">
+    <a
+      routerLink="/login"
+      routerLinkActive="auth-toggle__item--active"
+      class="auth-toggle__item"
+      [ariaCurrentWhenActive]="'page'"
+      >Войти</a
+    >
+    <a
+      routerLink="/register"
+      routerLinkActive="auth-toggle__item--active"
+      class="auth-toggle__item"
+      [ariaCurrentWhenActive]="'page'"
+      >Регистрация</a
+    >
+  </nav>
+
+  <router-outlet />
+</div>
