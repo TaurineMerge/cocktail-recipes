@@ -1,0 +1,94 @@
+<div class="page-container cocktails-page">
+  <div class="cocktails-page__header">
+    <h1>Коктейли</h1>
+    <div class="cocktails-page__header-actions">
+      <button mat-stroked-button [matMenuTriggerFor]="sortMenu">
+        <mat-icon>sort</mat-icon>
+        {{ sortLabel() }}
+      </button>
+      <mat-menu #sortMenu="matMenu">
+        @for (option of sortOptions; track option) {
+          <button mat-menu-item (click)="setSort(option)">
+            @if (option === sortOption()) {
+              <mat-icon>check</mat-icon>
+            } @else {
+              <mat-icon></mat-icon>
+            }
+            {{ sortLabels[option] }}
+          </button>
+        }
+      </mat-menu>
+
+      <button mat-flat-button color="primary" routerLink="/cocktails/new">
+        <mat-icon>add</mat-icon>
+        Добавить рецепт
+      </button>
+    </div>
+  </div>
+
+  @if (cocktailsListService.loading()) {
+    <div class="cocktails-page__state">
+      <mat-spinner diameter="32" />
+    </div>
+  } @else if (cocktailsListService.error()) {
+    <p class="error-message">{{ cocktailsListService.error() }}</p>
+  } @else if (cocktailsListService.isEmpty()) {
+    <div class="cocktails-page__state cocktails-page__empty">
+      <mat-icon>local_bar</mat-icon>
+      <p>Пока нет ни одного рецепта</p>
+      <button mat-stroked-button color="primary" routerLink="/cocktails/new">
+        Добавить первый рецепт
+      </button>
+    </div>
+  } @else {
+    <table mat-table [dataSource]="sortedCocktails()" class="full-width cocktails-page__table">
+      <ng-container matColumnDef="image">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let cocktail">
+          @if (cocktail.imageBase64) {
+            <img [src]="cocktail.imageBase64" [alt]="cocktail.name" class="cocktails-page__thumb" />
+          } @else {
+            <div class="cocktails-page__thumb cocktails-page__thumb--placeholder">
+              <mat-icon>local_bar</mat-icon>
+            </div>
+          }
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Название</th>
+        <td mat-cell *matCellDef="let cocktail" data-label="Название">
+          <a [routerLink]="['/cocktails', cocktail.id]" class="cocktails-page__name-link">
+            {{ cocktail.name }}
+          </a>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef>Добавлен</th>
+        <td mat-cell *matCellDef="let cocktail" data-label="Добавлен">
+          {{ cocktail.createdAt | date: 'd MMM y' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let cocktail" class="cocktails-page__actions">
+          <a
+            mat-icon-button
+            [routerLink]="['/cocktails', cocktail.id, 'edit']"
+            aria-label="Редактировать рецепт"
+          >
+            <mat-icon>edit</mat-icon>
+          </a>
+          <button mat-icon-button (click)="remove(cocktail)" aria-label="Удалить рецепт">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  }
+</div>
