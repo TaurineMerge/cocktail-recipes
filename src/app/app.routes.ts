@@ -20,4 +20,11 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'cocktails',
+    loadComponent: () =>
+      import('./features/cocktails/cocktails-list/cocktails-list.component').then(
+        (m) => m.CocktailsListComponent,
+      ),
+  },
 ];
