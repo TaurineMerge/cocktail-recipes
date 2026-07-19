@@ -1,3 +1,5 @@
+@use '../../../../styles/breakpoints' as bp;
+
 :host {
   display: flex;
   flex: 1 1 auto;
@@ -45,6 +47,10 @@
   justify-content: center;
   padding: 32px;
   overflow-y: auto;
+
+  @include bp.mobile {
+    padding: 24px 16px;
+  }
 }
 
 .auth-toggle {
