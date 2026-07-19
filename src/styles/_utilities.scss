@@ -1,9 +1,15 @@
+@use './breakpoints' as bp;
+
 .page-container {
   width: 100%;
   max-width: 960px;
   margin: 0 auto;
   padding: 32px 24px;
   box-sizing: border-box;
+
+  @include bp.mobile {
+    padding: 16px 12px;
+  }
 }
 
 .full-width {
@@ -19,13 +25,9 @@
 .auth-card {
   width: 100%;
   max-width: 400px;
-}
 
-.auth-card__form-field {
-  margin-bottom: 16px;
-
-  :last-child {
-    margin-bottom: 0;
+  &__form-field {
+    margin-bottom: 16px;
   }
 }
 
