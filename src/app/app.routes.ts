@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/auth/auth.guard';
 
 export const routes: Routes = [
+  { path: '', pathMatch: 'full', redirectTo: 'cocktails' },
   {
     path: '',
     loadComponent: () =>
@@ -22,9 +24,38 @@ export const routes: Routes = [
   },
   {
     path: 'cocktails',
-    loadComponent: () =>
-      import('./features/cocktails/cocktails-list/cocktails-list.component').then(
-        (m) => m.CocktailsListComponent,
-      ),
+    canActivate: [authGuard],
+    title: 'Коктейли — Барная карта',
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./features/cocktails/cocktails-list/cocktails-list.component').then(
+            (m) => m.CocktailsListComponent,
+          ),
+      },
+      {
+        path: 'new',
+        title: 'Новый рецепт — Барная карта',
+        loadComponent: () =>
+          import('./features/cocktails/cocktail-form/cocktail-form.component').then(
+            (m) => m.CocktailFormComponent,
+          ),
+      },
+      {
+        path: ':id',
+        loadComponent: () =>
+          import('./features/cocktails/cocktail-detail/cocktail-detail.component').then(
+            (m) => m.CocktailDetailComponent,
+          ),
+      },
+      {
+        path: ':id/edit',
+        loadComponent: () =>
+          import('./features/cocktails/cocktail-form/cocktail-form.component').then(
+            (m) => m.CocktailFormComponent,
+          ),
+      },
+    ],
   },
 ];
