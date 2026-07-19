@@ -1,0 +1,23 @@
+$mobile: 599px;
+$tablet: 959px;
+
+// отдельный брейкпоинт для mat-stepper (cocktail-form)
+$stepper-vertical: 719px;
+
+@mixin mobile {
+  @media (max-width: $mobile) {
+    @content;
+  }
+}
+
+@mixin tablet-down {
+  @media (max-width: $tablet) {
+    @content;
+  }
+}
+
+@mixin stepper-vertical {
+  @media (max-width: $stepper-vertical) {
+    @content;
+  }
+}
