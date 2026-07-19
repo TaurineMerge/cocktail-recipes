@@ -1,0 +1,135 @@
+<div class="page-container cocktail-form-page">
+  @if (isLoading()) {
+    <div class="cocktail-form-page__state">
+      <mat-spinner diameter="32" />
+    </div>
+  } @else if (loadError()) {
+    <p class="error-message">{{ loadError() }}</p>
+  } @else {
+    <h1>{{ isEditMode ? 'Редактирование рецепта' : 'Новый рецепт' }}</h1>
+
+    <mat-stepper [linear]="true" [orientation]="stepperOrientation()">
+      <mat-step [stepControl]="form.controls.basicInfo" label="Основное">
+        <form [formGroup]="form.controls.basicInfo" class="cocktail-form-page__step">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Название</mat-label>
+            <input matInput formControlName="name" maxlength="80" />
+            @if (
+              form.controls.basicInfo.controls.name.invalid &&
+              form.controls.basicInfo.controls.name.touched
+            ) {
+              <mat-error>Укажите название коктейля</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Описание</mat-label>
+            <textarea matInput formControlName="description" rows="4" maxlength="500"></textarea>
+            @if (
+              form.controls.basicInfo.controls.description.invalid &&
+              form.controls.basicInfo.controls.description.touched
+            ) {
+              <mat-error>Добавьте короткое описание</mat-error>
+            }
+          </mat-form-field>
+
+          <p class="cocktail-form-page__field-label">Фото готового коктейля</p>
+          <app-image-upload [control]="form.controls.basicInfo.controls.imageBase64" />
+
+          <div class="cocktail-form-page__step-actions">
+            <button mat-flat-button color="primary" type="button" matStepperNext>Далее</button>
+          </div>
+        </form>
+      </mat-step>
+
+      <mat-step [stepControl]="form.controls.steps" label="Приготовление">
+        <div class="cocktail-form-page__step">
+          <div
+            cdkDropList
+            (cdkDropListDropped)="reorderSteps($event)"
+            class="cocktail-form-page__steps-list"
+          >
+            @for (stepGroup of stepsArray.controls; track stepGroup; let i = $index) {
+              <div cdkDrag class="cocktail-form-page__step-card" [formGroup]="stepGroup">
+                <div class="cocktail-form-page__step-card-header">
+                  <mat-icon cdkDragHandle class="cocktail-form-page__drag-handle"
+                    >drag_indicator</mat-icon
+                  >
+                  <span class="cocktail-form-page__step-number">Шаг {{ i + 1 }}</span>
+                  <button
+                    mat-icon-button
+                    type="button"
+                    (click)="removeStep(i)"
+                    [disabled]="stepsArray.length === 1"
+                    aria-label="Удалить шаг"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Что нужно сделать</mat-label>
+                  <textarea matInput formControlName="text" rows="2" maxlength="300"></textarea>
+                  @if (stepGroup.controls.text.invalid && stepGroup.controls.text.touched) {
+                    <mat-error>Опишите этот шаг</mat-error>
+                  }
+                </mat-form-field>
+
+                <app-images-upload [control]="stepGroup.controls.imagesBase64" />
+              </div>
+            }
+          </div>
+
+          <button
+            mat-stroked-button
+            type="button"
+            (click)="addStep()"
+            class="cocktail-form-page__add-step"
+          >
+            <mat-icon>add</mat-icon>
+            Добавить шаг
+          </button>
+
+          <div class="cocktail-form-page__step-actions">
+            <button mat-button type="button" matStepperPrevious>Назад</button>
+            <button mat-flat-button color="primary" type="button" matStepperNext>Далее</button>
+          </div>
+        </div>
+      </mat-step>
+
+      <mat-step label="Проверка">
+        <div class="cocktail-form-page__step cocktail-form-page__review">
+          <h2>{{ form.controls.basicInfo.controls.name.value || 'Без названия' }}</h2>
+          <p>{{ form.controls.basicInfo.controls.description.value }}</p>
+
+          <ol class="cocktail-form-page__review-steps">
+            @for (stepGroup of stepsArray.controls; track stepGroup; let i = $index) {
+              <li>{{ stepGroup.controls.text.value }}</li>
+            }
+          </ol>
+
+          @if (submitError()) {
+            <p class="error-message">{{ submitError() }}</p>
+          }
+
+          <div class="cocktail-form-page__step-actions">
+            <button mat-button type="button" matStepperPrevious>Назад</button>
+            <button
+              mat-flat-button
+              color="primary"
+              type="button"
+              (click)="submit()"
+              [disabled]="isSubmitting()"
+            >
+              @if (isSubmitting()) {
+                <mat-spinner diameter="20" />
+              } @else {
+                Сохранить рецепт
+              }
+            </button>
+          </div>
+        </div>
+      </mat-step>
+    </mat-stepper>
+  }
+</div>
