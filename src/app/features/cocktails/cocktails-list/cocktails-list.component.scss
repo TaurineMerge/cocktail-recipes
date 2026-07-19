@@ -1,12 +1,27 @@
+@use '../../../../styles/breakpoints' as bp;
+
 .cocktails-page__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
 
   h1 {
     font-family: Fraunces, serif;
     margin: 0;
+  }
+}
+
+.cocktails-page__header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+
+  @include bp.mobile {
+    width: 100%;
   }
 }
 
@@ -28,6 +43,11 @@
     height: 48px;
     color: var(--mat-sys-primary);
   }
+}
+
+.cocktails-page__table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .cocktails-page__thumb {
@@ -71,14 +91,78 @@
   width: 88px;
 }
 
-.cocktails-page__name-link {
+.cocktails-page__table .cocktails-page__name-link {
   color: inherit;
   text-decoration: none;
   font-weight: 500;
+}
 
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
+.cocktails-page__cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cocktails-page__clickable-row {
+  cursor: pointer;
+}
+
+.cocktails-page__card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 12px;
+  background: var(--mat-sys-surface-container-low);
+}
+
+.cocktails-page__card-media-link {
+  flex: 0 0 auto;
+  display: block;
+  line-height: 0;
+}
+
+.cocktails-page__card-image {
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+  object-fit: cover;
+  display: block;
+
+  &--placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--mat-sys-surface-container-high);
+    color: var(--mat-sys-on-surface-variant);
   }
+}
+
+.cocktails-page__card-body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cocktails-page__card-body .cocktails-page__name-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cocktails-page__card-date {
+  font-size: 0.75rem;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.cocktails-page__card-actions {
+  flex: 0 0 auto;
+  display: flex;
 }

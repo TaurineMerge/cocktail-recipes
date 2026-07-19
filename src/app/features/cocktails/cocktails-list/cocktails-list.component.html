@@ -40,55 +40,132 @@
         Добавить первый рецепт
       </button>
     </div>
-  } @else {
-    <table mat-table [dataSource]="sortedCocktails()" class="full-width cocktails-page__table">
-      <ng-container matColumnDef="image">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let cocktail">
-          @if (cocktail.imageBase64) {
-            <img [src]="cocktail.imageBase64" [alt]="cocktail.name" class="cocktails-page__thumb" />
-          } @else {
-            <div class="cocktails-page__thumb cocktails-page__thumb--placeholder">
-              <mat-icon>local_bar</mat-icon>
-            </div>
-          }
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Название</th>
-        <td mat-cell *matCellDef="let cocktail" data-label="Название">
-          <a [routerLink]="['/cocktails', cocktail.id]" class="cocktails-page__name-link">
-            {{ cocktail.name }}
-          </a>
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="createdAt">
-        <th mat-header-cell *matHeaderCellDef>Добавлен</th>
-        <td mat-cell *matCellDef="let cocktail" data-label="Добавлен">
-          {{ cocktail.createdAt | date: 'd MMM y' }}
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let cocktail" class="cocktails-page__actions">
+  } @else if (isMobile()) {
+    <div class="cocktails-page__cards">
+      @for (cocktail of sortedCocktails(); track cocktail.id) {
+        <div
+          class="cocktails-page__card cocktails-page__clickable-row"
+          (click)="openDetail(cocktail)"
+        >
           <a
-            mat-icon-button
-            [routerLink]="['/cocktails', cocktail.id, 'edit']"
-            aria-label="Редактировать рецепт"
+            [routerLink]="['/cocktails', cocktail.id]"
+            (click)="$event.stopPropagation()"
+            class="cocktails-page__card-media-link"
           >
-            <mat-icon>edit</mat-icon>
+            @if (cocktail.imageBase64) {
+              <img
+                [src]="cocktail.imageBase64"
+                [alt]="cocktail.name"
+                class="cocktails-page__card-image"
+              />
+            } @else {
+              <div class="cocktails-page__card-image cocktails-page__card-image--placeholder">
+                <mat-icon>local_bar</mat-icon>
+              </div>
+            }
           </a>
-          <button mat-icon-button (click)="remove(cocktail)" aria-label="Удалить рецепт">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </td>
-      </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
+          <div class="cocktails-page__card-body">
+            <a
+              [routerLink]="['/cocktails', cocktail.id]"
+              (click)="$event.stopPropagation()"
+              class="cocktails-page__name-link"
+            >
+              {{ cocktail.name }}
+            </a>
+            <span class="cocktails-page__card-date">{{
+              cocktail.createdAt | date: 'd MMM y'
+            }}</span>
+          </div>
+
+          <div class="cocktails-page__card-actions">
+            <a
+              mat-icon-button
+              [routerLink]="['/cocktails', cocktail.id, 'edit']"
+              (click)="$event.stopPropagation()"
+              aria-label="Редактировать рецепт"
+            >
+              <mat-icon>edit</mat-icon>
+            </a>
+            <button
+              mat-icon-button
+              (click)="$event.stopPropagation(); remove(cocktail)"
+              aria-label="Удалить рецепт"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="cocktails-page__table-wrapper">
+      <table mat-table [dataSource]="sortedCocktails()" class="full-width cocktails-page__table">
+        <ng-container matColumnDef="image">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let cocktail">
+            @if (cocktail.imageBase64) {
+              <img
+                [src]="cocktail.imageBase64"
+                [alt]="cocktail.name"
+                class="cocktails-page__thumb"
+              />
+            } @else {
+              <div class="cocktails-page__thumb cocktails-page__thumb--placeholder">
+                <mat-icon>local_bar</mat-icon>
+              </div>
+            }
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Название</th>
+          <td mat-cell *matCellDef="let cocktail" data-label="Название">
+            <a
+              [routerLink]="['/cocktails', cocktail.id]"
+              (click)="$event.stopPropagation()"
+              class="cocktails-page__name-link"
+            >
+              {{ cocktail.name }}
+            </a>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="createdAt">
+          <th mat-header-cell *matHeaderCellDef>Добавлен</th>
+          <td mat-cell *matCellDef="let cocktail" data-label="Добавлен">
+            {{ cocktail.createdAt | date: 'd MMM y' }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let cocktail" class="cocktails-page__actions">
+            <a
+              mat-icon-button
+              [routerLink]="['/cocktails', cocktail.id, 'edit']"
+              aria-label="Редактировать рецепт"
+            >
+              <mat-icon>edit</mat-icon>
+            </a>
+            <button
+              mat-icon-button
+              (click)="$event.stopPropagation(); remove(cocktail)"
+              aria-label="Удалить рецепт"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let cocktail; columns: displayedColumns"
+          class="cocktails-page__clickable-row"
+          (click)="openDetail(cocktail)"
+        ></tr>
+      </table>
+    </div>
   }
 </div>
