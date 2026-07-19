@@ -1,3 +1,5 @@
+@use '../styles/breakpoints' as bp;
+
 :host {
   display: flex;
   flex-direction: column;
@@ -9,12 +11,17 @@
   position: sticky;
   top: 0;
   z-index: 10;
+  gap: 4px;
 
   &__logo {
     font-family: Fraunces, serif;
     font-weight: 600;
     font-size: 1.25rem;
     color: var(--mat-sys-primary);
+
+    @include bp.mobile {
+      font-size: 1.05rem;
+    }
   }
 
   &__spacer {
@@ -22,9 +29,18 @@
   }
 
   &__user {
+    display: inline-block;
     margin-right: 8px;
     font-size: 0.875rem;
     opacity: 0.75;
+    max-width: 220px;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    @include bp.mobile {
+      max-width: 84px;
+    }
   }
 }
 
@@ -35,4 +51,9 @@
   padding: 24px;
   box-sizing: border-box;
   min-height: 0;
+  overflow: auto;
+
+  @include bp.mobile {
+    padding: 12px;
+  }
 }
