@@ -1,0 +1,48 @@
+<div class="page-container cocktail-detail-page">
+  @if (isLoading()) {
+    <div class="cocktail-detail-page__state">
+      <mat-spinner diameter="32" />
+    </div>
+  } @else if (error()) {
+    <p class="error-message">{{ error() }}</p>
+  } @else if (cocktail(); as cocktail) {
+    <div class="cocktail-detail-page__header">
+      <div>
+        <h1>{{ cocktail.name }}</h1>
+        <p class="cocktail-detail-page__description">{{ cocktail.description }}</p>
+      </div>
+      <div class="cocktail-detail-page__header-actions">
+        <a mat-stroked-button [routerLink]="['/cocktails', cocktail.id, 'edit']">
+          <mat-icon>edit</mat-icon>
+          Редактировать
+        </a>
+        <button mat-stroked-button color="warn" (click)="remove()">
+          <mat-icon>delete</mat-icon>
+          Удалить
+        </button>
+      </div>
+    </div>
+
+    @if (cocktail.imageBase64) {
+      <img [src]="cocktail.imageBase64" [alt]="cocktail.name" class="cocktail-detail-page__hero" />
+    }
+
+    <h2>Приготовление</h2>
+    <ol class="cocktail-detail-page__steps">
+      @for (step of cocktail.steps; track step.id) {
+        <li>
+          <p>{{ step.text }}</p>
+          @if (step.imagesBase64?.length) {
+            <div class="cocktail-detail-page__step-images">
+              @for (image of step.imagesBase64; track image) {
+                <img [src]="image" alt="" />
+              }
+            </div>
+          }
+        </li>
+      }
+    </ol>
+
+    <a routerLink="/cocktails" class="cocktail-detail-page__back">← Ко всем коктейлям</a>
+  }
+</div>
