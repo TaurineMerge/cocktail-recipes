@@ -1,0 +1,26 @@
+<input #fileInput type="file" accept="image/*" multiple hidden (change)="onFilesSelected($event)" />
+
+<div class="images-upload">
+  @for (image of control().value; track $index) {
+    <div class="images-upload__thumb">
+      <img [src]="image" alt="Фото шага" />
+      <button
+        mat-icon-button
+        type="button"
+        class="images-upload__remove"
+        (click)="removeAt($index)"
+        aria-label="Удалить фото"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  }
+
+  <button type="button" class="images-upload__add" (click)="openFilePicker()">
+    @if (isCompressing()) {
+      <mat-icon>hourglass_top</mat-icon>
+    } @else {
+      <mat-icon>add_photo_alternate</mat-icon>
+    }
+  </button>
+</div>
