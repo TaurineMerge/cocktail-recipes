@@ -21,7 +21,7 @@ import { ImageUploadComponent } from '../../../shared/images/image-upload/image-
 import { ImageCollectionUploadComponent } from '../../../shared/images/image-collection-upload/image-collection-upload.component';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs';
+import { finalize, map } from 'rxjs';
 
 type StepFormGroup = FormGroup<{
   id: FormControl<string>;
@@ -87,11 +87,13 @@ export class CocktailFormComponent {
 
   constructor() {
     if (this.#cocktailId) {
-      this.#repository.getById(this.#cocktailId).subscribe({
-        next: (cocktail) => this.#patchForm(cocktail),
-        error: () => this.loadError.set('Не удалось загрузить рецепт'),
-        complete: () => this.isLoading.set(false),
-      });
+      this.#repository
+        .getById(this.#cocktailId)
+        .pipe(finalize(() => this.isLoading.set(false)))
+        .subscribe({
+          next: (cocktail) => this.#patchForm(cocktail),
+          error: () => this.loadError.set('Не удалось загрузить рецепт'),
+        });
     } else {
       this.addStep();
     }
@@ -106,6 +108,9 @@ export class CocktailFormComponent {
   }
 
   removeStep(index: number): void {
+    if (this.stepsArray.length <= 1) {
+      return;
+    }
     this.stepsArray.removeAt(index);
   }
 
