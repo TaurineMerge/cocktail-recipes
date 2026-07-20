@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../../core/auth/services/auth.service';
 import { Router } from '@angular/router';
 import { PasswordFieldComponent } from '../../../shared/password-field/password-field.component';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -55,16 +56,18 @@ export class RegisterComponent {
     this.errorMessage.set(null);
 
     const { email, password } = this.form.getRawValue();
-    this.#auth.register({ email, password }).subscribe({
-      next: () => this.#router.navigateByUrl('/cocktails'),
-      error: (error: unknown) => {
-        this.isSubmitting.set(false);
-        this.errorMessage.set(
-          error instanceof HttpErrorResponse && error.status === 409
-            ? 'Пользователь с таким email уже существует'
-            : 'Не удалось зарегистрироваться. Попробуйте в другой раз',
-        );
-      },
-    });
+    this.#auth
+      .register({ email, password })
+      .pipe(finalize(() => this.isSubmitting.set(false)))
+      .subscribe({
+        next: () => this.#router.navigateByUrl('/cocktails'),
+        error: (error: unknown) => {
+          this.errorMessage.set(
+            error instanceof HttpErrorResponse && error.status === 409
+              ? 'Пользователь с таким email уже существует'
+              : 'Не удалось зарегистрироваться. Попробуйте в другой раз',
+          );
+        },
+      });
   }
 }
