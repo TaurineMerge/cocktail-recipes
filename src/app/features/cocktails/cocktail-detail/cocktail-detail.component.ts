@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CocktailRepository } from '../cocktail.repository';
 import { Cocktail } from '../cocktail.model';
 import { ConfirmDialogComponent } from '../../../shared/confirm-dialog/confirm-dialog.component';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-cocktail-detail',
@@ -29,11 +30,13 @@ export class CocktailDetailComponent {
   protected readonly error = signal<string | null>(null);
 
   constructor() {
-    this.#repository.getById(this.#id).subscribe({
-      next: (cocktail) => this.cocktail.set(cocktail),
-      error: () => this.error.set('Не удалось загрузить рецепт'),
-      complete: () => this.isLoading.set(false),
-    });
+    this.#repository
+      .getById(this.#id)
+      .pipe(finalize(() => this.isLoading.set(false)))
+      .subscribe({
+        next: (cocktail) => this.cocktail.set(cocktail),
+        error: () => this.error.set('Не удалось загрузить рецепт'),
+      });
   }
 
   remove(): void {
