@@ -1,7 +1,8 @@
 import { CanActivateFn } from '@angular/router';
 import { inject } from '@angular/core';
+import { map } from 'rxjs';
 import { AuthService } from '../services/auth.service';
-import { catchError, map, of } from 'rxjs';
+import { tryRecoverSession } from './session-recovery';
 
 export const authGuard: CanActivateFn = () => {
   const auth = inject(AuthService);
@@ -10,11 +11,12 @@ export const authGuard: CanActivateFn = () => {
     return true;
   }
 
-  return auth.refreshSession().pipe(
-    map(() => true),
-    catchError(() => {
-      auth.endSession();
-      return of(false);
+  return tryRecoverSession(auth).pipe(
+    map((recovered) => {
+      if (!recovered) {
+        auth.endSession();
+      }
+      return recovered;
     }),
   );
 };
