@@ -12,6 +12,7 @@ import { AuthService } from '../../../core/auth/services/auth.service';
 import { Router } from '@angular/router';
 import { PasswordFieldComponent } from '../../../shared/password-field/password-field.component';
 import { finalize } from 'rxjs';
+import { strictEmailValidator } from '../../../shared/email-validator/email.validator';
 
 @Component({
   selector: 'app-register',
@@ -39,7 +40,7 @@ export class RegisterComponent {
 
   readonly form = this.#formBuilder.nonNullable.group(
     {
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, strictEmailValidator()]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]],
     },
@@ -62,12 +63,21 @@ export class RegisterComponent {
       .subscribe({
         next: () => this.#router.navigateByUrl('/cocktails'),
         error: (error: unknown) => {
-          this.errorMessage.set(
-            error instanceof HttpErrorResponse && error.status === 409
-              ? 'Пользователь с таким email уже существует'
-              : 'Не удалось зарегистрироваться. Попробуйте в другой раз',
-          );
+          this.errorMessage.set(this.#resolveErrorMessage(error));
         },
       });
+  }
+
+  #resolveErrorMessage(error: unknown): string {
+    if (!(error instanceof HttpErrorResponse)) {
+      return 'Не удалось зарегистрироваться. Попробуйте в другой раз';
+    }
+    if (error.status === 409) {
+      return 'Пользователь с таким email уже существует';
+    }
+    if (error.status === 400 && typeof error.error?.message === 'string') {
+      return error.error.message;
+    }
+    return 'Не удалось зарегистрироваться. Попробуйте в другой раз';
   }
 }

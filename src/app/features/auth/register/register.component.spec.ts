@@ -143,6 +143,35 @@ describe('RegisterComponent', () => {
     expect(navigateSpy).not.toHaveBeenCalled();
   });
 
+  it('при 400 показывает конкретное сообщение бэкенда, а не общую фразу', () => {
+    registerMock.mockReturnValue(
+      throwError(
+        () =>
+          new HttpErrorResponse({
+            status: 400,
+            statusText: 'Bad Request',
+            error: { message: 'Некорректный email или пароль короче 6 символов' },
+          }),
+      ),
+    );
+    fillForm();
+    component.submit();
+
+    expect(component.errorMessage()).toBe('Некорректный email или пароль короче 6 символов');
+    expect(navigateSpy).not.toHaveBeenCalled();
+  });
+
+  it('при 400 без тела сообщения — общая фраза, а не undefined/пустая строка', () => {
+    registerMock.mockReturnValue(
+      throwError(() => new HttpErrorResponse({ status: 400, statusText: 'Bad Request' })),
+    );
+    fillForm();
+    component.submit();
+
+    expect(component.errorMessage()).toBe('Не удалось зарегистрироваться. Попробуйте в другой раз');
+    expect(navigateSpy).not.toHaveBeenCalled();
+  });
+
   it('при прочих ошибках показывает общее сообщение и не выполняет навигацию', () => {
     registerMock.mockReturnValue(
       throwError(
