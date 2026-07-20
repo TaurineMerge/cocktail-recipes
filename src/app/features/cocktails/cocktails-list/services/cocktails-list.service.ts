@@ -1,6 +1,6 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { CocktailRepository } from '../cocktail.repository';
-import { Cocktail } from '../cocktail.model';
+import { CocktailRepository } from '../../cocktail.repository';
+import { Cocktail } from '../../cocktail.model';
 import { finalize } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
