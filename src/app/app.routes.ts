@@ -1,10 +1,12 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/auth/guards/auth.guard';
+import { guestGuard } from './core/auth/guards/guest.guard';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'cocktails' },
   {
     path: '',
+    canActivate: [guestGuard],
     loadComponent: () =>
       import('./features/auth/auth-shell/auth-shell.component').then((m) => m.AuthShellComponent),
     children: [
