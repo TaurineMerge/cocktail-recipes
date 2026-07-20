@@ -41,7 +41,7 @@ export class AuthService {
     this.#repository
       .logout()
       .pipe(finalize(() => this.endSession()))
-      .subscribe();
+      .subscribe({ error: () => {} });
   }
 
   endSession(): void {
