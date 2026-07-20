@@ -1,114 +1,116 @@
 @use '../../../../styles/breakpoints' as bp;
 
-.cocktail-form-page__state {
-  display: flex;
-  justify-content: center;
-  padding: 64px 0;
+.cocktail-form-page {
+  &__state {
+    display: flex;
+    justify-content: center;
+    padding: 64px 0;
+  }
+
+  &__step {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px 0;
+
+    @include bp.mobile {
+      padding: 16px 0;
+    }
+  }
+
+  &__field-label {
+    margin: 0 0 -8px;
+    font-size: 0.875rem;
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  &__step-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 8px;
+
+    @include bp.mobile {
+      flex-direction: column-reverse;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+
+  &__steps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__step-card {
+    border: 1px solid var(--mat-sys-outline-variant);
+    border-radius: 12px;
+    padding: 16px;
+    background: var(--mat-sys-surface-container-low);
+
+    @include bp.mobile {
+      padding: 12px;
+    }
+
+    &.cdk-drag-preview {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    &.cdk-drag-placeholder {
+      opacity: 0.3;
+    }
+  }
+
+  &__step-card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  &__drag-handle {
+    cursor: grab;
+    color: var(--mat-sys-on-surface-variant);
+
+    @include bp.mobile {
+      padding: 8px;
+      margin: -8px;
+    }
+  }
+
+  &__step-number {
+    font-weight: 500;
+    flex: 1 1 auto;
+  }
+
+  &__add-step {
+    align-self: flex-start;
+
+    @include bp.mobile {
+      align-self: stretch;
+    }
+  }
+
+  &__review {
+    h2 {
+      font-family: Fraunces, serif;
+      margin: 0 0 8px;
+    }
+  }
+
+  &__review-steps {
+    padding-left: 20px;
+
+    li {
+      margin-bottom: 8px;
+    }
+  }
 }
 
 h1 {
   font-family: Fraunces, serif;
   margin: 0 0 24px;
-}
-
-.cocktail-form-page__step {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 24px 0;
-
-  @include bp.mobile {
-    padding: 16px 0;
-  }
-}
-
-.cocktail-form-page__field-label {
-  margin: 0 0 -8px;
-  font-size: 0.875rem;
-  color: var(--mat-sys-on-surface-variant);
-}
-
-.cocktail-form-page__step-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-  margin-top: 8px;
-
-  @include bp.mobile {
-    flex-direction: column-reverse;
-
-    button {
-      width: 100%;
-    }
-  }
-}
-
-.cocktail-form-page__steps-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.cocktail-form-page__step-card {
-  border: 1px solid var(--mat-sys-outline-variant);
-  border-radius: 12px;
-  padding: 16px;
-  background: var(--mat-sys-surface-container-low);
-
-  @include bp.mobile {
-    padding: 12px;
-  }
-
-  &.cdk-drag-preview {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-  }
-
-  &.cdk-drag-placeholder {
-    opacity: 0.3;
-  }
-}
-
-.cocktail-form-page__step-card-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.cocktail-form-page__drag-handle {
-  cursor: grab;
-  color: var(--mat-sys-on-surface-variant);
-
-  @include bp.mobile {
-    padding: 8px;
-    margin: -8px;
-  }
-}
-
-.cocktail-form-page__step-number {
-  font-weight: 500;
-  flex: 1 1 auto;
-}
-
-.cocktail-form-page__add-step {
-  align-self: flex-start;
-
-  @include bp.mobile {
-    align-self: stretch;
-  }
-}
-
-.cocktail-form-page__review {
-  h2 {
-    font-family: Fraunces, serif;
-    margin: 0 0 8px;
-  }
-}
-
-.cocktail-form-page__review-steps {
-  padding-left: 20px;
-
-  li {
-    margin-bottom: 8px;
-  }
 }
