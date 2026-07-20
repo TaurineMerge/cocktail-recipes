@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import crypto from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { logger } from '../logger.js';
 
 import { createJsonStore } from '../store/store.js';
 
