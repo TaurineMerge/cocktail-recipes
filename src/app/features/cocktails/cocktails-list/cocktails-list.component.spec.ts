@@ -6,7 +6,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { of } from 'rxjs';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { CocktailsListComponent } from './cocktails-list.component';
-import { CocktailsListService } from './cocktails-list.service';
+import { CocktailsListService } from './services/cocktails-list.service';
 import { Cocktail } from '../cocktail.model';
 import { createCocktail } from '../_test-utils';
 

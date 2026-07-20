@@ -6,7 +6,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { CocktailsListService } from './cocktails-list.service';
+import { CocktailsListService } from './services/cocktails-list.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Cocktail } from '../cocktail.model';
 import { Router, RouterLink } from '@angular/router';
@@ -20,7 +20,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
-import { SORT_LABELS, SORT_OPTIONS, sortCocktails, SortOption } from './cocktails-list-sort';
+import { SORT_LABELS, SORT_OPTIONS, sortCocktails, SortOption } from './utils/cocktails-list-sort';
 
 const MOBILE_BREAKPOINT = '(max-width: 599px)';
 

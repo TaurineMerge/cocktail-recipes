@@ -2,9 +2,9 @@ import { TestBed } from '@angular/core/testing';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { of, throwError, Subject } from 'rxjs';
 import { CocktailsListService } from './cocktails-list.service';
-import { CocktailRepository } from '../cocktail.repository';
-import { Cocktail } from '../cocktail.model';
-import { createCocktail } from '../_test-utils';
+import { CocktailRepository } from '../../cocktail.repository';
+import { Cocktail } from '../../cocktail.model';
+import { createCocktail } from '../../_test-utils';
 
 describe('CocktailsListService', () => {
   let service: CocktailsListService;

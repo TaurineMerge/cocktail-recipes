@@ -1,4 +1,4 @@
-import { Cocktail } from '../cocktail.model';
+import { Cocktail } from '../../cocktail.model';
 
 export type SortOption = 'date-desc' | 'date-asc' | 'name-asc' | 'name-desc';
 export const SORT_OPTIONS = ['date-desc', 'date-asc', 'name-asc', 'name-desc'] as const;

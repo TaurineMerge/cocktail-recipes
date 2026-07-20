@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { sortCocktails } from './cocktails-list-sort';
-import { createCocktail } from '../_test-utils';
+import { createCocktail } from '../../_test-utils';
 
 describe('sortCocktails', () => {
   it('не мутирует исходный массив', () => {
