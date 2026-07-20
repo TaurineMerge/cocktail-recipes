@@ -35,6 +35,9 @@ app.use((req, res, next) => {
 
 app.use('/api/auth', authRouter);
 app.use('/api/cocktails', cocktailsRouter);
+app.get('/api/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
 
 app.listen(PORT, () => {
   logger.info('server.started', { port: PORT });
