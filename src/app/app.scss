@@ -18,6 +18,7 @@
     font-weight: 600;
     font-size: 1.25rem;
     color: var(--mat-sys-primary);
+    text-decoration: none;
 
     @include bp.mobile {
       font-size: 1.05rem;
