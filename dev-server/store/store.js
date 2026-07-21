@@ -4,12 +4,19 @@ export function createJsonStore(filePath) {
   async function readAll() {
     try {
       const raw = await fs.readFile(filePath, 'utf-8');
+
+      if (raw.trim() === '') {
+        await fs.writeFile(filePath, '[]', 'utf-8');
+        return [];
+      }
+
       return JSON.parse(raw);
     } catch (error) {
       if (error.code === 'ENOENT') {
         await fs.writeFile(filePath, '[]', 'utf-8');
         return [];
       }
+
       throw error;
     }
   }
