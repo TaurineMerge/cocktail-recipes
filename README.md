@@ -229,14 +229,16 @@ npm test
 
 **Покрыто:**
 
-- API-сервисы (`CocktailApiService`,`AuthApiService`) через `HttpTestingController`
+- API-сервисы (`CocktailApiService`,`AuthApiService`)
 - Стейт-сервисы (`CocktailsListService`, `AuthService`)
 - Сортировка коктейлей
 - HTTP-интерцепторы (`attachToken`, `refreshOnUnauthorized`)
 - Route guard'ы (`auth`, `guest`)
-- Валидаторы (`passwordMatchValidator`, `strictEmailValidator`)
+- Email-валидатор (`strictEmailValidator`)
 - Все компоненты коктейлей (список/форма/детали)
 - Компоненты регистрации и входа в аккаунт
+
+![Tests](docs/images/tests.png)
 
 ## Docker
 
